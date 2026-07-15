@@ -1,0 +1,22 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import { projects } from '../data/projects';
+---
+
+<BaseLayout
+  title="Projects"
+  description="Open-source and in-progress projects — developer tooling for .NET and LLMs, an autonomous agent orchestrator, and an algorithmic trading engine."
+>
+  <header class="border-b border-border pb-6">
+    <h1 class="text-3xl font-bold tracking-tight sm:text-4xl">Projects</h1>
+    <p class="mt-3 max-w-2xl text-muted">
+      Tools I build for myself and others — mostly .NET, LLM-adjacent developer tooling, and systems
+      work. A few are still private while they harden; those link out once they're ready.
+    </p>
+  </header>
+
+  <div class="mt-8 grid gap-4 sm:grid-cols-2">
+    {projects.map((project) => <ProjectCard project={project} />)}
+  </div>
+</BaseLayout>

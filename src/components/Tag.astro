@@ -1,0 +1,22 @@
+---
+import { withBase } from '../lib/url';
+
+interface Props {
+  name: string;
+  href?: string;
+}
+const { name, href } = Astro.props;
+const resolved = href ? withBase(href) : undefined;
+const cls =
+  'inline-block rounded-full border border-border px-2.5 py-0.5 font-mono text-xs text-muted transition-colors';
+---
+
+{
+  resolved ? (
+    <a href={resolved} class={`${cls} hover:border-accent hover:text-accent`}>
+      #{name}
+    </a>
+  ) : (
+    <span class={cls}>#{name}</span>
+  )
+}

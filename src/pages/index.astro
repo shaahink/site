@@ -1,0 +1,113 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SocialLinks from '../components/SocialLinks.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import PostCard from '../components/PostCard.astro';
+import { site } from '../data/site';
+import { summary, skills } from '../data/cv';
+import { featuredProjects } from '../data/projects';
+import { getPostSummaries } from '../lib/posts';
+import { withBase } from '../lib/url';
+
+const posts = (await getPostSummaries()).slice(0, 3);
+// Short intro: first paragraph of the CV summary.
+const intro = summary.split('\n\n')[0];
+---
+
+<BaseLayout>
+  <!-- Hero -->
+  <section class="pb-4">
+    <p class="font-mono text-sm text-accent">Hi, I'm</p>
+    <h1 class="mt-2 text-4xl font-bold tracking-tight sm:text-5xl">{site.name}</h1>
+    <p class="mt-2 font-mono text-base text-muted">
+      {site.role} · {site.location}
+    </p>
+    <p class="mt-6 max-w-2xl text-lg leading-relaxed text-fg">{site.tagline}</p>
+
+    <div class="mt-7 flex flex-wrap items-center gap-3">
+      <a
+        href={withBase('/projects')}
+        class="rounded-md bg-accent px-4 py-2 text-sm font-semibold text-accent-contrast transition-opacity hover:opacity-90"
+      >
+        View projects
+      </a>
+      <a
+        href={withBase('/blog')}
+        class="rounded-md border border-border px-4 py-2 text-sm font-semibold text-fg transition-colors hover:border-accent hover:text-accent"
+      >
+        Read the blog
+      </a>
+      <a
+        href={withBase('/cv')}
+        class="rounded-md border border-border px-4 py-2 text-sm font-semibold text-fg transition-colors hover:border-accent hover:text-accent"
+      >
+        View CV
+      </a>
+      <SocialLinks class="ml-1" />
+    </div>
+  </section>
+
+  <!-- About -->
+  <section class="mt-16">
+    <h2 class="font-mono text-sm uppercase tracking-widest text-faint">About</h2>
+    <p class="mt-4 max-w-2xl leading-relaxed text-muted">{intro}</p>
+  </section>
+
+  <!-- Skills -->
+  <section class="mt-16">
+    <h2 class="font-mono text-sm uppercase tracking-widest text-faint">Stack</h2>
+    <div class="mt-5 grid gap-4 sm:grid-cols-2">
+      {
+        skills.map((s) => (
+          <div class="rounded-xl border border-border bg-surface p-4">
+            <h3 class="text-sm font-semibold">{s.group}</h3>
+            <ul class="mt-2.5 flex flex-wrap gap-1.5">
+              {s.items.map((item) => (
+                <li class="rounded border border-border px-1.5 py-0.5 font-mono text-[11px] text-muted">
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+
+  <!-- Featured projects -->
+  <section class="mt-16">
+    <div class="flex items-baseline justify-between">
+      <h2 class="font-mono text-sm uppercase tracking-widest text-faint">Selected projects</h2>
+      <a href={withBase('/projects')} class="font-mono text-xs text-accent hover:underline">All projects →</a>
+    </div>
+    <div class="mt-5 grid gap-4 sm:grid-cols-2">
+      {featuredProjects.map((project) => <ProjectCard project={project} />)}
+    </div>
+  </section>
+
+  <!-- Latest writing -->
+  {
+    posts.length > 0 && (
+      <section class="mt-16">
+        <div class="flex items-baseline justify-between">
+          <h2 class="font-mono text-sm uppercase tracking-widest text-faint">Latest writing</h2>
+          <a href={withBase('/blog')} class="font-mono text-xs text-accent hover:underline">
+            All posts →
+          </a>
+        </div>
+        <div class="mt-5 grid gap-4">
+          {posts.map((post) => (
+            <PostCard
+              title={post.data.title}
+              description={post.data.description}
+              href={`/blog/${post.slug}`}
+              pubDate={post.data.pubDate}
+              minutesRead={post.minutesRead}
+              tags={post.data.tags}
+            />
+          ))}
+        </div>
+      </section>
+    )
+  }
+</BaseLayout>

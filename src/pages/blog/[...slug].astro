@@ -1,0 +1,34 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { render } from 'astro:content';
+import PostLayout from '../../layouts/PostLayout.astro';
+import { getPublishedPosts } from '../../lib/posts';
+
+export async function getStaticPaths() {
+  const posts = await getPublishedPosts(); // newest first
+  return posts.map((post, i) => ({
+    params: { slug: post.id },
+    props: {
+      post,
+      newer: i > 0 ? posts[i - 1] : null,
+      older: i < posts.length - 1 ? posts[i + 1] : null,
+    },
+  }));
+}
+
+type Entry = CollectionEntry<'blog'>;
+const { post, newer, older } = Astro.props as {
+  post: Entry;
+  newer: Entry | null;
+  older: Entry | null;
+};
+
+const { Content, remarkPluginFrontmatter } = await render(post);
+const minutesRead = remarkPluginFrontmatter.minutesRead as number | undefined;
+
+const toNav = (p: Entry | null) => (p ? { slug: p.id, title: p.data.title } : null);
+---
+
+<PostLayout post={post} minutesRead={minutesRead} prev={toNav(older)} next={toNav(newer)}>
+  <Content />
+</PostLayout>

@@ -1,0 +1,255 @@
+@import 'tailwindcss';
+
+/* ------------------------------------------------------------------ *
+ * Design tokens — dark-first. `:root` holds the dark palette; the
+ * [data-theme='light'] block overrides for light mode. The no-flash
+ * script in BaseHead sets [data-theme] before first paint.
+ * ------------------------------------------------------------------ */
+:root,
+:root[data-theme='dark'] {
+  --bg: #0b0f14;
+  --bg-soft: #111823;
+  --surface: #131b26;
+  --fg: #e6edf3;
+  --muted: #9aa7b4;
+  --faint: #64748b;
+  --border: #22303c;
+  --accent: #5eead4;
+  --accent-soft: #134e4a;
+  --accent-contrast: #04120f;
+  --selection: #134e4a;
+  --shadow: 0 1px 2px rgba(0, 0, 0, 0.4), 0 8px 24px rgba(0, 0, 0, 0.25);
+}
+
+:root[data-theme='light'] {
+  --bg: #fbfcfd;
+  --bg-soft: #f2f5f8;
+  --surface: #ffffff;
+  --fg: #0f1a24;
+  --muted: #4a5a68;
+  --faint: #768895;
+  --border: #dde5ec;
+  --accent: #0d9488;
+  --accent-soft: #d5f5ef;
+  --accent-contrast: #ffffff;
+  --selection: #cdeee8;
+  --shadow: 0 1px 2px rgba(15, 26, 36, 0.06), 0 10px 30px rgba(15, 26, 36, 0.08);
+}
+
+/* Map tokens into Tailwind's theme so `bg-bg`, `text-fg`, `text-muted`,
+ * `border-border`, `text-accent`, `font-mono`, etc. stay theme-reactive. */
+@theme inline {
+  --color-bg: var(--bg);
+  --color-bg-soft: var(--bg-soft);
+  --color-surface: var(--surface);
+  --color-fg: var(--fg);
+  --color-muted: var(--muted);
+  --color-faint: var(--faint);
+  --color-border: var(--border);
+  --color-accent: var(--accent);
+  --color-accent-soft: var(--accent-soft);
+  --color-accent-contrast: var(--accent-contrast);
+
+  --font-mono: 'JetBrains Mono', ui-monospace, 'SFMono-Regular', 'Cascadia Code',
+    'Roboto Mono', Menlo, Consolas, monospace;
+  --font-sans: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto,
+    Helvetica, Arial, sans-serif;
+}
+
+/* ------------------------------------------------------------------ *
+ * Base elements
+ * ------------------------------------------------------------------ */
+html {
+  scroll-behavior: smooth;
+  color-scheme: dark;
+  -webkit-text-size-adjust: 100%;
+}
+:root[data-theme='light'] html,
+html:has(:root[data-theme='light']) {
+  color-scheme: light;
+}
+
+body {
+  background-color: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-sans);
+  line-height: 1.65;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  min-height: 100dvh;
+}
+
+::selection {
+  background-color: var(--selection);
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 3px;
+}
+
+hr {
+  border: 0;
+  border-top: 1px solid var(--border);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+/* ------------------------------------------------------------------ *
+ * Prose — long-form article styling for rendered Markdown
+ * ------------------------------------------------------------------ */
+.prose {
+  max-width: 68ch;
+  font-size: 1.03rem;
+}
+.prose > * + * {
+  margin-top: 1.15em;
+}
+.prose h2,
+.prose h3,
+.prose h4 {
+  font-weight: 650;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+  scroll-margin-top: 5rem;
+}
+.prose h2 {
+  margin-top: 2.2em;
+  font-size: 1.5rem;
+}
+.prose h3 {
+  margin-top: 1.8em;
+  font-size: 1.25rem;
+}
+.prose h2 + *,
+.prose h3 + * {
+  margin-top: 0.6em;
+}
+.prose a {
+  color: var(--accent);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+.prose a:hover {
+  text-decoration-thickness: 2px;
+}
+.prose ul,
+.prose ol {
+  padding-left: 1.4em;
+}
+.prose ul {
+  list-style: disc;
+}
+.prose ol {
+  list-style: decimal;
+}
+.prose li + li {
+  margin-top: 0.4em;
+}
+.prose blockquote {
+  border-left: 3px solid var(--accent);
+  padding-left: 1em;
+  color: var(--muted);
+  font-style: italic;
+}
+.prose :not(pre) > code {
+  font-family: var(--font-mono);
+  font-size: 0.86em;
+  background-color: var(--bg-soft);
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  padding: 0.12em 0.4em;
+}
+.prose img {
+  border-radius: 10px;
+  border: 1px solid var(--border);
+}
+.prose pre {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  line-height: 1.6;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 1rem 1.1rem;
+  overflow-x: auto;
+}
+
+/* ------------------------------------------------------------------ *
+ * Shiki dual-theme: default output is the light theme; swap to the
+ * dark palette whenever our [data-theme='dark'] attribute is present.
+ * ------------------------------------------------------------------ */
+:root[data-theme='dark'] .astro-code,
+:root[data-theme='dark'] .astro-code span {
+  color: var(--shiki-dark) !important;
+  background-color: var(--shiki-dark-bg) !important;
+  font-style: var(--shiki-dark-font-style) !important;
+  font-weight: var(--shiki-dark-font-weight) !important;
+  text-decoration: var(--shiki-dark-text-decoration) !important;
+}
+
+/* Code block copy button (added by PostLayout script) */
+.code-block {
+  position: relative;
+}
+.copy-btn {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.03em;
+  color: var(--muted);
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 0.2rem 0.5rem;
+  opacity: 0;
+  transition: opacity 0.15s ease, color 0.15s ease;
+  cursor: pointer;
+}
+.code-block:hover .copy-btn,
+.copy-btn:focus-visible {
+  opacity: 1;
+}
+.copy-btn:hover {
+  color: var(--accent);
+}
+
+/* ------------------------------------------------------------------ *
+ * Utilities / shared bits
+ * ------------------------------------------------------------------ */
+.skip-link {
+  position: absolute;
+  left: -999px;
+  top: 0;
+  z-index: 100;
+  background-color: var(--accent);
+  color: var(--accent-contrast);
+  padding: 0.5rem 1rem;
+  border-radius: 0 0 8px 0;
+  font-weight: 600;
+}
+.skip-link:focus {
+  left: 0;
+}
+
+.mono {
+  font-family: var(--font-mono);
+}
