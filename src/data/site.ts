@@ -14,7 +14,7 @@ export const site = {
   role: 'Software Engineer',
   tagline: "I build systems that don't take your word for it.",
   taglineDetail:
-    'An orchestrator that re-runs the tests instead of believing the agent. A code map where every edge cites file and line. A trading engine that can replay any decision it ever made. Ten years of shipping production .NET — currently spent making autonomous tooling earn trust.',
+    "An orchestrator that re-runs the tests because the agent said “done” and was lying. A code map that has to cite file and line before I'll believe it. A trading engine that can replay its worst day in slow motion. About ten years of shipping .NET — these days mostly spent building tools that keep software, and me, honest.",
   location: 'London, UK',
   /** Public contact address. */
   email: 'Shahin.Kiassat90@gmail.com',
