@@ -1,101 +1,135 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import SectionHeading from '../components/SectionHeading.astro';
 import SocialLinks from '../components/SocialLinks.astro';
-import ProjectCard from '../components/ProjectCard.astro';
 import PostCard from '../components/PostCard.astro';
 import { site } from '../data/site';
-import { summary, skills } from '../data/cv';
-import { featuredProjects } from '../data/projects';
+import { projects } from '../data/projects';
 import { getPostSummaries } from '../lib/posts';
 import { withBase } from '../lib/url';
 
 const posts = (await getPostSummaries()).slice(0, 3);
-// Short intro: first paragraph of the CV summary.
-const intro = summary.split('\n\n')[0];
+
+const principles = [
+  {
+    title: 'Evidence over narration',
+    body: "A claim about work isn't the work. The systems I build re-run the tests, read the real exit codes, and diff the artefacts — whether the thing under scrutiny is an AI agent or my own code from six months ago.",
+    href: '/blog/dont-trust-the-agent',
+  },
+  {
+    title: 'Determinism is a feature',
+    body: "If you can't replay it, you can't debug it. Append-only event logs as the source of truth, state as a projection, side effects pushed to the edges — the same discipline works for a trading engine and an agent orchestrator.",
+    href: '/blog/a-trading-engine-as-a-pure-function',
+  },
+  {
+    title: 'Slices over layers',
+    body: 'Code organised by feature, not by kind. Changing one behaviour should mean opening one folder — not a controller, two interfaces, two implementations, and a mapper across four projects.',
+    href: '/blog/vertical-slices-not-onions',
+  },
+  {
+    title: 'Small, typed surfaces',
+    body: "Whether it's an API for a team or a tool handed to an LLM: narrow contracts, validated inputs, refuse everything else. Maximal capability with no guardrails is how demos betray you in production.",
+    href: '/blog/typed-tools-beat-a-shell',
+  },
+];
 ---
 
 <BaseLayout>
   <!-- Hero -->
-  <section class="pb-4">
-    <p class="font-mono text-sm text-accent">Hi, I'm</p>
-    <h1 class="mt-2 text-4xl font-bold tracking-tight sm:text-5xl">{site.name}</h1>
-    <p class="mt-2 font-mono text-base text-muted">
-      {site.role} · {site.location}
-    </p>
-    <p class="mt-6 max-w-2xl text-lg leading-relaxed text-fg">{site.tagline}</p>
+  <section class="pt-2 pb-4">
+    <p class="font-mono text-xs tracking-wide text-accent">// software engineer · london</p>
+    <h1 class="mt-4 max-w-2xl text-4xl font-bold leading-[1.12] tracking-tight sm:text-[2.6rem]">
+      {site.tagline}
+    </h1>
+    <p class="mt-6 max-w-2xl leading-relaxed text-muted">{site.taglineDetail}</p>
 
-    <div class="mt-7 flex flex-wrap items-center gap-3">
-      <a
-        href={withBase('/projects')}
-        class="rounded-md bg-accent px-4 py-2 text-sm font-semibold text-accent-contrast transition-opacity hover:opacity-90"
-      >
-        View projects
-      </a>
+    <div class="mt-8 flex flex-wrap items-center gap-3">
       <a
         href={withBase('/blog')}
-        class="rounded-md border border-border px-4 py-2 text-sm font-semibold text-fg transition-colors hover:border-accent hover:text-accent"
+        class="rounded-md bg-accent px-4 py-2 font-mono text-sm font-semibold text-accent-contrast transition-opacity hover:opacity-90"
       >
-        Read the blog
+        read the writing
       </a>
       <a
-        href={withBase('/cv')}
-        class="rounded-md border border-border px-4 py-2 text-sm font-semibold text-fg transition-colors hover:border-accent hover:text-accent"
+        href={withBase('/projects')}
+        class="rounded-md border border-border px-4 py-2 font-mono text-sm font-semibold text-fg transition-colors hover:border-accent hover:text-accent"
       >
-        View CV
+        see the lab
       </a>
       <SocialLinks class="ml-1" />
     </div>
   </section>
 
-  <!-- About -->
-  <section class="mt-16">
-    <h2 class="font-mono text-sm uppercase tracking-widest text-faint">About</h2>
-    <p class="mt-4 max-w-2xl leading-relaxed text-muted">{intro}</p>
+  <!-- Now building -->
+  <section class="mt-20">
+    <SectionHeading index="01" label="Now building" />
+    <div class="mt-6">
+      {
+        projects.map((p) => (
+          <a
+            href={withBase(`/projects#${p.slug}`)}
+            class="group flex items-baseline justify-between gap-4 border-b border-border py-5 first:pt-1"
+          >
+            <div>
+              <div class="flex flex-wrap items-center gap-x-3 gap-y-1">
+                <span class="font-mono text-base font-semibold transition-colors group-hover:text-accent">
+                  {p.name}
+                </span>
+                <span class="inline-flex items-center gap-1.5 font-mono text-[11px] text-faint">
+                  <span
+                    class:list={[
+                      'inline-block h-1.5 w-1.5 rounded-full bg-accent',
+                      p.status === 'building' ? 'status-pulse' : '',
+                    ]}
+                    aria-hidden="true"
+                  />
+                  {p.status}
+                </span>
+              </div>
+              <p class="mt-1.5 max-w-xl text-sm leading-relaxed text-muted">{p.oneLiner}</p>
+            </div>
+            <span
+              class="hidden shrink-0 font-mono text-sm text-faint transition-colors group-hover:text-accent sm:block"
+              aria-hidden="true"
+            >
+              →
+            </span>
+          </a>
+        ))
+      }
+    </div>
   </section>
 
-  <!-- Skills -->
-  <section class="mt-16">
-    <h2 class="font-mono text-sm uppercase tracking-widest text-faint">Stack</h2>
-    <div class="mt-5 grid gap-4 sm:grid-cols-2">
+  <!-- Operating principles -->
+  <section class="mt-20">
+    <SectionHeading index="02" label="Operating principles" />
+    <div class="mt-7 grid gap-x-10 gap-y-8 sm:grid-cols-2">
       {
-        skills.map((s) => (
-          <div class="rounded-xl border border-border bg-surface p-4">
-            <h3 class="text-sm font-semibold">{s.group}</h3>
-            <ul class="mt-2.5 flex flex-wrap gap-1.5">
-              {s.items.map((item) => (
-                <li class="rounded border border-border px-1.5 py-0.5 font-mono text-[11px] text-muted">
-                  {item}
-                </li>
-              ))}
-            </ul>
+        principles.map((p) => (
+          <div>
+            <h3 class="font-mono text-sm font-semibold">
+              <a href={withBase(p.href)} class="transition-colors hover:text-accent">
+                {p.title}
+              </a>
+            </h3>
+            <p class="mt-2 text-sm leading-relaxed text-muted">{p.body}</p>
           </div>
         ))
       }
     </div>
   </section>
 
-  <!-- Featured projects -->
-  <section class="mt-16">
-    <div class="flex items-baseline justify-between">
-      <h2 class="font-mono text-sm uppercase tracking-widest text-faint">Selected projects</h2>
-      <a href={withBase('/projects')} class="font-mono text-xs text-accent hover:underline">All projects →</a>
-    </div>
-    <div class="mt-5 grid gap-4 sm:grid-cols-2">
-      {featuredProjects.map((project) => <ProjectCard project={project} />)}
-    </div>
-  </section>
-
   <!-- Latest writing -->
   {
     posts.length > 0 && (
-      <section class="mt-16">
-        <div class="flex items-baseline justify-between">
-          <h2 class="font-mono text-sm uppercase tracking-widest text-faint">Latest writing</h2>
-          <a href={withBase('/blog')} class="font-mono text-xs text-accent hover:underline">
-            All posts →
+      <section class="mt-20">
+        <div class="flex items-baseline justify-between gap-4">
+          <SectionHeading index="03" label="Latest writing" class="flex-1" />
+          <a href={withBase('/blog')} class="shrink-0 font-mono text-xs text-accent hover:underline">
+            all →
           </a>
         </div>
-        <div class="mt-5 grid gap-4">
+        <div class="mt-4">
           {posts.map((post) => (
             <PostCard
               title={post.data.title}
@@ -103,7 +137,6 @@ const intro = summary.split('\n\n')[0];
               href={`/blog/${post.slug}`}
               pubDate={post.data.pubDate}
               minutesRead={post.minutesRead}
-              tags={post.data.tags}
             />
           ))}
         </div>

@@ -6,22 +6,23 @@ import { withBase } from '../lib/url';
 <BaseLayout title="404 — Not found" description="This page could not be found.">
   <section class="py-16 text-center">
     <p class="font-mono text-6xl font-bold text-accent">404</p>
-    <h1 class="mt-4 text-2xl font-semibold">This page wandered off.</h1>
+    <h1 class="mt-4 font-mono text-xl font-semibold">no route matched.</h1>
     <p class="mx-auto mt-3 max-w-md text-muted">
-      The page you're looking for doesn't exist or has moved. Try the blog or head back home.
+      Whatever was here has been refactored away. The writing and the lab are still where they
+      should be.
     </p>
     <div class="mt-8 flex justify-center gap-3">
       <a
         href={withBase('/')}
-        class="rounded-md bg-accent px-4 py-2 text-sm font-semibold text-accent-contrast transition-opacity hover:opacity-90"
+        class="rounded-md bg-accent px-4 py-2 font-mono text-sm font-semibold text-accent-contrast transition-opacity hover:opacity-90"
       >
-        Home
+        home
       </a>
       <a
         href={withBase('/blog')}
-        class="rounded-md border border-border px-4 py-2 text-sm font-semibold text-fg transition-colors hover:border-accent hover:text-accent"
+        class="rounded-md border border-border px-4 py-2 font-mono text-sm font-semibold text-fg transition-colors hover:border-accent hover:text-accent"
       >
-        Blog
+        writing
       </a>
     </div>
   </section>

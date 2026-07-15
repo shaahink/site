@@ -16,7 +16,7 @@ model in the same session — there's no independent witness. So I built one.
 
 ## Evidence, or it didn't happen
 
-The orchestrator I've been working on ([Conductor](/projects)) treats every
+The orchestrator I've been working on ([Conductor](/projects#conductor)) treats every
 session's claims as unverified until it checks them itself, out of process. After
 a session exits, it looks at three independent signals:
 

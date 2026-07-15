@@ -1,39 +1,39 @@
 @import 'tailwindcss';
 
 /* ------------------------------------------------------------------ *
- * Design tokens — dark-first. `:root` holds the dark palette; the
- * [data-theme='light'] block overrides for light mode. The no-flash
- * script in BaseHead sets [data-theme] before first paint.
+ * Design tokens — warm dark + amber "workshop" palette, dark-first.
+ * `:root` holds the dark palette; [data-theme='light'] overrides.
+ * The no-flash script in BaseHead sets [data-theme] before first paint.
  * ------------------------------------------------------------------ */
 :root,
 :root[data-theme='dark'] {
-  --bg: #0b0f14;
-  --bg-soft: #111823;
-  --surface: #131b26;
-  --fg: #e6edf3;
-  --muted: #9aa7b4;
-  --faint: #64748b;
-  --border: #22303c;
-  --accent: #5eead4;
-  --accent-soft: #134e4a;
-  --accent-contrast: #04120f;
-  --selection: #134e4a;
+  --bg: #0f0e0c;
+  --bg-soft: #17140f;
+  --surface: #151310;
+  --fg: #ece7dd;
+  --muted: #a89f8f;
+  --faint: #776f5f;
+  --border: #292519;
+  --accent: #e2a24a;
+  --accent-soft: #382a12;
+  --accent-contrast: #171106;
+  --selection: #4a3512;
   --shadow: 0 1px 2px rgba(0, 0, 0, 0.4), 0 8px 24px rgba(0, 0, 0, 0.25);
 }
 
 :root[data-theme='light'] {
-  --bg: #fbfcfd;
-  --bg-soft: #f2f5f8;
+  --bg: #faf8f3;
+  --bg-soft: #f1ece1;
   --surface: #ffffff;
-  --fg: #0f1a24;
-  --muted: #4a5a68;
-  --faint: #768895;
-  --border: #dde5ec;
-  --accent: #0d9488;
-  --accent-soft: #d5f5ef;
-  --accent-contrast: #ffffff;
-  --selection: #cdeee8;
-  --shadow: 0 1px 2px rgba(15, 26, 36, 0.06), 0 10px 30px rgba(15, 26, 36, 0.08);
+  --fg: #221d13;
+  --muted: #5d5646;
+  --faint: #8b8272;
+  --border: #e3dcca;
+  --accent: #91600e;
+  --accent-soft: #f3e6c6;
+  --accent-contrast: #fffdf8;
+  --selection: #f0dcb0;
+  --shadow: 0 1px 2px rgba(34, 29, 19, 0.06), 0 10px 30px rgba(34, 29, 19, 0.08);
 }
 
 /* Map tokens into Tailwind's theme so `bg-bg`, `text-fg`, `text-muted`,
@@ -111,6 +111,35 @@ hr {
   }
 }
 
+/* Blinking cursor block in the header wordmark. */
+@keyframes cursor-blink {
+  0%,
+  45% {
+    opacity: 1;
+  }
+  50%,
+  95% {
+    opacity: 0;
+  }
+}
+.cursor-blink {
+  animation: cursor-blink 1.4s step-end infinite;
+}
+
+/* Pulsing "building" status dot on the now-board. */
+@keyframes status-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.35;
+  }
+}
+.status-pulse {
+  animation: status-pulse 2.4s ease-in-out infinite;
+}
+
 /* ------------------------------------------------------------------ *
  * Prose — long-form article styling for rendered Markdown
  * ------------------------------------------------------------------ */
@@ -124,22 +153,29 @@ hr {
 .prose h2,
 .prose h3,
 .prose h4 {
-  font-weight: 650;
-  line-height: 1.25;
-  letter-spacing: -0.01em;
+  font-family: var(--font-mono);
+  font-weight: 600;
+  line-height: 1.3;
+  letter-spacing: -0.02em;
   scroll-margin-top: 5rem;
 }
 .prose h2 {
   margin-top: 2.2em;
-  font-size: 1.5rem;
+  font-size: 1.3rem;
 }
 .prose h3 {
   margin-top: 1.8em;
-  font-size: 1.25rem;
+  font-size: 1.1rem;
 }
 .prose h2 + *,
 .prose h3 + * {
   margin-top: 0.6em;
+}
+.prose h2::before,
+.prose h3::before {
+  content: '// ';
+  color: var(--accent);
+  font-weight: 500;
 }
 .prose a {
   color: var(--accent);
@@ -162,6 +198,9 @@ hr {
 }
 .prose li + li {
   margin-top: 0.4em;
+}
+.prose li::marker {
+  color: var(--faint);
 }
 .prose blockquote {
   border-left: 3px solid var(--accent);
@@ -189,6 +228,25 @@ hr {
   border-radius: 10px;
   padding: 1rem 1.1rem;
   overflow-x: auto;
+}
+.prose table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+.prose th,
+.prose td {
+  border: 1px solid var(--border);
+  padding: 0.45em 0.7em;
+  text-align: left;
+  vertical-align: top;
+}
+.prose th {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.03em;
+  color: var(--muted);
+  background-color: var(--bg-soft);
 }
 
 /* ------------------------------------------------------------------ *

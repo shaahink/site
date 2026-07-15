@@ -11,23 +11,24 @@ export interface SocialLink {
 
 export const site = {
   name: 'Shahin Kiassat',
-  role: 'Full-Stack Software Engineer',
-  tagline:
-    'I build backend and distributed systems in C#/.NET — and the developer tooling that makes AI agents reliable on real codebases. Engineering discipline, not vibe coding.',
+  role: 'Software Engineer',
+  tagline: "I build systems that don't take your word for it.",
+  taglineDetail:
+    'An orchestrator that re-runs the tests instead of believing the agent. A code map where every edge cites file and line. A trading engine that can replay any decision it ever made. Ten years of shipping production .NET — currently spent making autonomous tooling earn trust.',
   location: 'London, UK',
   /** Public contact address. */
   email: 'Shahin.Kiassat90@gmail.com',
   /** Canonical origin (matches astro.config `site`). */
   url: 'https://shaahink.github.io',
   description:
-    'Personal site and technical blog of Shahin Kiassat — a full-stack software engineer specialising in .NET, distributed systems, and applied AI/LLM tooling.',
+    'Shahin Kiassat — software engineer in London. Distributed systems, .NET, and the tooling that makes AI agents verifiable: agent orchestration, code-graph analysis, deterministic trading engines.',
 } as const;
 
 export const nav: NavItem[] = [
-  { label: 'Home', href: '/' },
-  { label: 'Blog', href: '/blog' },
-  { label: 'Projects', href: '/projects' },
-  { label: 'CV', href: '/cv' },
+  { label: 'home', href: '/' },
+  { label: 'writing', href: '/blog' },
+  { label: 'projects', href: '/projects' },
+  { label: 'about', href: '/about' },
 ];
 
 export const socials: SocialLink[] = [
