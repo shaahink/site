@@ -36,11 +36,10 @@ export const projects: Project[] = [
     story: [
       "Coding agents re-explore a codebase from cold at the start of every session — grep, open, follow, forget. And the naive alternative, a call graph, dead-ends at exactly the places modern .NET hides its wiring: MediatR handlers, DI registrations, message-bus consumers. Nothing calls anything; everything is connected by convention.",
       'DevContext analyses a solution once into a typed code graph and answers two questions: the Map (what is here — architecture style, topology, entry points) and the Trace (how things connect — an endpoint through handlers, events, consumers, entities). Edges are built by joining detections rather than following calls, and each one carries provenance (file:line), a resolution kind, and a confidence. A priority ladder makes semantic edges outrank raw syntactic calls, so the trace follows meaning, not text.',
-      'It has three faces over the same graph: a CLI, a desktop app with an explore workbench and a context studio that assembles LLM-ready context packs against a token budget, and an MCP server so agents can query the graph instead of grepping. Version 1 — the original Roslyn CLI — is public; v2 is the ground-up rebuild.',
+      'It has three faces over the same graph: a CLI, a desktop app with an explore workbench and a context studio that assembles LLM-ready context packs against a token budget, and an MCP server so agents can query the graph instead of grepping.',
     ],
     stack: 'typed code graph · join-based edges with provenance · three faces over one core — C#, Angular shell',
-    href: 'https://github.com/shaahink/DevContext',
-    linkNote: 'v1 on GitHub — v2 in progress',
+    href: 'https://github.com/shaahink/DevContext2',
   },
   {
     slug: 'shamshir',
