@@ -7,7 +7,7 @@ export interface Project {
   oneLiner: string;
   /** Narrative paragraphs for the projects page: the itch, the idea, the engineering. */
   story: string[];
-  /** Quiet stack line — rendered small, not as keyword chips. */
+  /** Quiet "shape" line — the system's architecture character first, languages last. */
   stack: string;
   /** External link (GitHub) when something is public. */
   href?: string;
@@ -26,7 +26,7 @@ export const projects: Project[] = [
       "The core design decision is the trust model: an agent's report of its own work is never evidence. After every session Conductor independently re-runs the gate battery and reads the real exit codes, checks git for new commits, and diffs the progress tracker. A checkpoint counts only when all three agree. Red gates spawn a fix session with the actual failing output embedded in the prompt.",
       "Under the hood it's event-sourced: an append-only events.jsonl is the truth and the run state is just a projection, so you can kill the process anywhere — Ctrl+C, reboot, power cut — and `conductor run` picks up where it left off. Sessions resolve to one of eight outcomes rather than pass/fail, a watchdog catches stalls and token-budget exhaustion with clean handoffs, and a cheap second-model advisor is consulted only at genuine dead ends. A live TUI dashboard runs in-process, with a separate Go companion app attaching over SSE.",
     ],
-    stack: 'C# / .NET · Go (Bubble Tea) · MCP · Spectre.Console · Telegram bot',
+    stack: 'event-sourced loop · supervised agent processes · independent gate battery — C#, with a Go face',
   },
   {
     slug: 'devcontext',
@@ -38,7 +38,7 @@ export const projects: Project[] = [
       'DevContext analyses a solution once into a typed code graph and answers two questions: the Map (what is here — architecture style, topology, entry points) and the Trace (how things connect — an endpoint through handlers, events, consumers, entities). Edges are built by joining detections rather than following calls, and each one carries provenance (file:line), a resolution kind, and a confidence. A priority ladder makes semantic edges outrank raw syntactic calls, so the trace follows meaning, not text.',
       'It has three faces over the same graph: a CLI, a desktop app with an explore workbench and a context studio that assembles LLM-ready context packs against a token budget, and an MCP server so agents can query the graph instead of grepping. Version 1 — the original Roslyn CLI — is public; v2 is the ground-up rebuild.',
     ],
-    stack: 'C# · Roslyn · Angular · Tauri · gRPC · MCP',
+    stack: 'typed code graph · join-based edges with provenance · three faces over one core — C#, Angular shell',
     href: 'https://github.com/shaahink/DevContext',
     linkNote: 'v1 on GitHub — v2 in progress',
   },
@@ -52,6 +52,6 @@ export const projects: Project[] = [
       'So the engine is built around a pure reducer kernel: (state, market event) → (new state, intents). No I/O, no clock, no randomness inside — every side effect lives at the edges. Backtesting is not a parallel code path; it is the same reducer fed recorded events, which means a backtest exercises the exact logic that runs live, and any trading day can be replayed deterministically to inspect why a decision happened.',
       'Strategy output passes through a risk governor before it becomes an order — position sizing, exposure caps, and prop-firm constraints (daily and total drawdown) modelled as first-class domain objects with the power of veto. Around the kernel: multi-symbol, multi-timeframe indicators, an event log in SQLite, a cTrader adapter, a web dashboard, and a simulation test tier that runs credential-free.',
     ],
-    stack: 'C# / .NET 10 · EF Core + SQLite · ASP.NET Core · cTrader',
+    stack: 'pure reducer core · event log + deterministic replay · risk governor with veto — C#, broker at the edge',
   },
 ];
