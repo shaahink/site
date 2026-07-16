@@ -2,6 +2,8 @@
 title: 'Fail in 80 tokens: error design for agent-facing tools'
 description: "When a tool call fails, the agent reads the error, thinks, and tries again — so the error message IS the interface. Envelopes with a hint and an example beat stack traces, and refusing to guess beats being helpful."
 pubDate: 2026-07-16
+series: 'workshop-systems'
+seriesOrder: 7
 tags: ['ai', 'mcp', 'tooling', 'api-design']
 ---
 

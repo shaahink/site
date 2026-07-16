@@ -4,20 +4,30 @@ import BaseLayout from './BaseLayout.astro';
 import Tag from '../components/Tag.astro';
 import { withBase } from '../lib/url';
 
+interface SeriesNav {
+  title: string;
+  order: number;
+  parts: { slug: string; title: string; order: number }[];
+}
+
 interface Props {
   post: CollectionEntry<'blog'>;
   minutesRead?: number;
   prev?: { slug: string; title: string } | null;
   next?: { slug: string; title: string } | null;
+  series?: SeriesNav | null;
 }
-const { post, minutesRead, prev, next } = Astro.props;
+const { post, minutesRead, prev, next, series } = Astro.props;
 const { title, description, pubDate, updatedDate, tags } = post.data;
 
 const fmt = (d: Date) =>
   d.toLocaleDateString('en-GB', { year: 'numeric', month: 'long', day: 'numeric' });
+
+// Build-time generated social card for this post (src/pages/og/[...route].ts).
+const ogImage = withBase(`/og/${post.id}.png`);
 ---
 
-<BaseLayout title={title} description={description} article={true}>
+<BaseLayout title={title} description={description} image={ogImage} article={true}>
   <article>
     <header class="mb-8 border-b border-border pb-8">
       <a href={withBase('/blog')} class="font-mono text-xs text-accent hover:underline">← All posts</a>
@@ -40,6 +50,38 @@ const fmt = (d: Date) =>
         )
       }
     </header>
+
+    {
+      series && (
+        <aside class="mb-8 rounded-lg border border-border p-4" aria-label="Series">
+          <p class="font-mono text-xs text-faint">
+            // series · part {series.order} of {series.parts.length}
+          </p>
+          <p class="mt-1 text-sm font-medium">{series.title}</p>
+          <details class="mt-2">
+            <summary class="cursor-pointer select-none font-mono text-xs text-accent hover:underline">
+              all parts
+            </summary>
+            <ol class="mt-3 space-y-1.5">
+              {series.parts.map((part) => (
+                <li class="flex items-baseline gap-2.5 text-sm">
+                  <span class="shrink-0 font-mono text-xs text-faint">
+                    {String(part.order).padStart(2, '0')}
+                  </span>
+                  {part.slug === post.id ? (
+                    <span class="font-medium text-accent">{part.title} ← this one</span>
+                  ) : (
+                    <a href={withBase(`/blog/${part.slug}`)} class="transition-colors hover:text-accent">
+                      {part.title}
+                    </a>
+                  )}
+                </li>
+              ))}
+            </ol>
+          </details>
+        </aside>
+      )
+    }
 
     <div class="prose">
       <slot />

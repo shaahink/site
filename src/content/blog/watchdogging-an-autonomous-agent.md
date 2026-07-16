@@ -2,6 +2,8 @@
 title: 'Watchdogging an autonomous agent'
 description: "Left alone, agent sessions die in three boring ways: silence, eternity, and 'rate limit'. Each needs a different response — and only some of them should cost the agent an attempt."
 pubDate: 2026-07-16
+series: 'workshop-systems'
+seriesOrder: 5
 tags: ['ai', 'agents', 'orchestration']
 ---
 

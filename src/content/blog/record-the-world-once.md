@@ -2,6 +2,8 @@
 title: 'Record the world once: market-data tapes'
 description: "A backtest is only as trustworthy as its data plumbing. Splitting the tape — recorded events — from the config — strategy, risk — means you record the world once and every re-run is free. Even the venue can be the recorder."
 pubDate: 2026-07-16
+series: 'workshop-systems'
+seriesOrder: 9
 tags: ['dotnet', 'trading', 'architecture']
 ---
 

@@ -2,6 +2,8 @@
 title: 'A context pack is a knapsack problem'
 description: "\"Give the model context about X, in 8,000 tokens\" sounds like retrieval. It's budgeting: sections with their own allowances, spine-first filling, per-body caps — and above all, named cuts, so the model knows what it didn't get."
 pubDate: 2026-07-16
+series: 'workshop-systems'
+seriesOrder: 8
 tags: ['ai', 'tooling', 'dotnet']
 ---
 

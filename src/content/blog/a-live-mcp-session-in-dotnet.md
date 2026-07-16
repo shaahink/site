@@ -2,6 +2,8 @@
 title: 'A live MCP session in .NET'
 description: "MCP hosts spawn your server per client, over stdio — but a Roslyn analysis takes thirty seconds you don't want to pay twice. The shape that works: a thin stdio front, one long-lived server behind it, and sessions as handles."
 pubDate: 2026-07-16
+series: 'workshop-systems'
+seriesOrder: 3
 tags: ['dotnet', 'ai', 'mcp', 'tooling']
 ---
 

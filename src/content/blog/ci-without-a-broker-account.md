@@ -2,6 +2,8 @@
 title: 'CI for a trading engine, no broker account required'
 description: "The scariest code in a trading system is the venue integration — exactly the code unit tests never touch. The gap-closer is a fake venue that speaks the real wire protocol against the real engine, credential-free, on every push."
 pubDate: 2026-07-16
+series: 'workshop-systems'
+seriesOrder: 10
 tags: ['dotnet', 'testing', 'trading']
 ---
 

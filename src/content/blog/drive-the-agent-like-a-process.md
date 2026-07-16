@@ -2,6 +2,8 @@
 title: 'Your coding agent has a CLI — drive it like a process'
 description: "Claude Code and friends ship headless modes that stream typed JSON to stdout. Everything my orchestrator does — dashboards, watchdogs, cost accounting, resumable pipelines — starts from treating an agent session as a supervised child process."
 pubDate: 2026-07-16
+series: 'workshop-systems'
+seriesOrder: 4
 tags: ['ai', 'agents', 'dotnet', 'orchestration']
 ---
 

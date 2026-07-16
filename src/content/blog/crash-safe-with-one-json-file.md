@@ -2,6 +2,8 @@
 title: 'Crash-safe orchestration with one JSON file'
 description: "Conductor can be killed at any instant — Ctrl+C, reboot, power cut — and `conductor run` picks up where it left off. No database: a full snapshot on every transition, written atomically, with owed work modelled as data."
 pubDate: 2026-07-16
+series: 'workshop-systems'
+seriesOrder: 6
 tags: ['dotnet', 'architecture', 'orchestration']
 ---
 

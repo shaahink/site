@@ -12,7 +12,8 @@ interface Props {
 const {
   title,
   description = site.description,
-  image = withBase('/favicon.svg'),
+  // Default social card, generated at build time by src/pages/og/[...route].ts.
+  image = withBase('/og/site.png'),
   article = false,
 } = Astro.props;
 
@@ -45,6 +46,9 @@ const ogImage = new URL(image, Astro.site);
 <meta property="og:title" content={pageTitle} />
 <meta property="og:description" content={description} />
 <meta property="og:image" content={ogImage} />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content={pageTitle} />
 <meta property="og:site_name" content={site.name} />
 
 <!-- Twitter -->

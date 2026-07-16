@@ -2,6 +2,8 @@
 title: 'A deterministic bridge out of cTrader'
 description: "My strategy code refuses to live inside a broker sandbox — so a ZeroMQ bridge moves it out. The part that took real thought isn't the sockets: it's the lock-step acknowledgement that makes two processes behave like one deterministic loop."
 pubDate: 2026-07-16
+series: 'workshop-systems'
+seriesOrder: 2
 tags: ['dotnet', 'zeromq', 'trading', 'architecture']
 ---
 

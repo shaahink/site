@@ -13,6 +13,8 @@ export interface Project {
   href?: string;
   /** Short caveat shown next to the link, e.g. which part is public. */
   linkNote?: string;
+  /** Blog slugs of the deep-dive posts for this system, in suggested reading order. */
+  posts?: string[];
 }
 
 export const projects: Project[] = [
@@ -24,9 +26,17 @@ export const projects: Project[] = [
     story: [
       'Long multi-stage plans turn you into a babysitter: pick the next stage, spawn an agent session, watch for stalls, check the work, repeat until midnight. Conductor mechanises that loop — one session at a time, resumable at any point, watchable from a phone.',
       "The core design decision is the trust model: an agent's report of its own work is never evidence. After every session Conductor independently re-runs the gate battery and reads the real exit codes, checks git for new commits, and diffs the progress tracker. A checkpoint counts only when all three agree. Red gates spawn a fix session with the actual failing output embedded in the prompt.",
-      "Under the hood it's event-sourced: an append-only events.jsonl is the truth and the run state is just a projection, so you can kill the process anywhere — Ctrl+C, reboot, power cut — and `conductor run` picks up where it left off. Sessions resolve to one of eight outcomes rather than pass/fail, a watchdog catches stalls and token-budget exhaustion with clean handoffs, and a cheap second-model advisor is consulted only at genuine dead ends. A live TUI dashboard runs in-process, with a separate Go companion app attaching over SSE.",
+      "Under the hood it's built to be killed: the full run state is snapshotted atomically on every transition and owed work is recorded as data, so you can kill the process anywhere — Ctrl+C, reboot, power cut — and `conductor run` picks up where it left off, resuming the interrupted agent session. Sessions resolve to one of eight outcomes rather than pass/fail, a watchdog catches stalls and token-budget exhaustion with clean handoffs, and a cheap second-model advisor is consulted only at genuine dead ends. A live TUI dashboard runs in-process, with a separate Go companion app attaching over SSE.",
     ],
-    stack: 'event-sourced loop · supervised agent processes · independent gate battery — C#, with a Go face',
+    stack: 'crash-safe loop · supervised agent processes · independent gate battery — C#, with a Go face',
+    href: 'https://github.com/shaahink/conductor',
+    posts: [
+      'dont-trust-the-agent',
+      'an-agent-session-is-not-pass-fail',
+      'drive-the-agent-like-a-process',
+      'watchdogging-an-autonomous-agent',
+      'crash-safe-with-one-json-file',
+    ],
   },
   {
     slug: 'devcontext',
@@ -40,6 +50,14 @@ export const projects: Project[] = [
     ],
     stack: 'typed code graph · join-based edges with provenance · three faces over one core — C#, Angular shell',
     href: 'https://github.com/shaahink/DevContext2',
+    posts: [
+      'point-dont-re-explore',
+      'call-graphs-lie-about-modern-dotnet',
+      'typed-tools-beat-a-shell',
+      'a-live-mcp-session-in-dotnet',
+      'fail-in-80-tokens',
+      'a-context-pack-is-a-knapsack',
+    ],
   },
   {
     slug: 'shamshir',
@@ -52,5 +70,13 @@ export const projects: Project[] = [
       'Strategy output passes through a risk governor before it becomes an order — position sizing, exposure caps, and prop-firm constraints (daily and total drawdown) modelled as first-class domain objects with the power of veto. Around the kernel: multi-symbol, multi-timeframe indicators, an event log in SQLite, a cTrader adapter, a web dashboard, and a simulation test tier that runs credential-free.',
     ],
     stack: 'pure reducer core · event log + deterministic replay · risk governor with veto — C#, broker at the edge',
+    href: 'https://github.com/shaahink/Shamshir',
+    posts: [
+      'a-trading-engine-as-a-pure-function',
+      'designing-a-kernel',
+      'a-deterministic-bridge-out-of-ctrader',
+      'record-the-world-once',
+      'ci-without-a-broker-account',
+    ],
   },
 ];

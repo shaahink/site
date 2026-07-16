@@ -1,6 +1,11 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { projects } from '../data/projects';
+import { getPostSummaries } from '../lib/posts';
+import { withBase } from '../lib/url';
+
+const summaries = await getPostSummaries();
+const postBySlug = new Map(summaries.map((s) => [s.slug, s]));
 ---
 
 <BaseLayout
@@ -14,7 +19,7 @@ import { projects } from '../data/projects';
       Three systems, one obsession: software that produces evidence for its own behaviour. Each is
       written up below the way I'd explain it over coffee — the itch, the core idea, and the parts
       that were genuinely fun to build. All three live somewhere between “works on my machine” and
-      “ready for yours”; links appear as they're published.
+      “ready for yours” — the source for each is on GitHub.
     </p>
   </header>
 
@@ -68,6 +73,30 @@ import { projects } from '../data/projects';
               </a>
             )}
           </div>
+
+          {p.posts && p.posts.length > 0 && (
+            <div class="mt-6 max-w-2xl">
+              <p class="font-mono text-xs tracking-wide text-accent">// read the engineering</p>
+              <ul class="mt-2.5 space-y-1.5">
+                {p.posts.map((slug) => {
+                  const post = postBySlug.get(slug);
+                  return post ? (
+                    <li class="flex items-baseline gap-2.5 text-sm">
+                      <a
+                        href={withBase(`/blog/${slug}`)}
+                        class="leading-snug transition-colors hover:text-accent"
+                      >
+                        {post.data.title}
+                      </a>
+                      <span class="shrink-0 font-mono text-[11px] text-faint">
+                        {post.minutesRead} min
+                      </span>
+                    </li>
+                  ) : null;
+                })}
+              </ul>
+            </div>
+          )}
         </article>
       ))
     }

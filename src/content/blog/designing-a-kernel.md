@@ -2,6 +2,8 @@
 title: 'Designing a kernel: one queue, one reducer, one journal'
 description: "The heart of my trading engine is a single pump. Every event goes through one queue, one pure function, and one journal — and the drain order is the whole trick. Here's the shape, and what it buys."
 pubDate: 2026-07-16
+series: 'workshop-systems'
+seriesOrder: 1
 tags: ['dotnet', 'architecture', 'trading']
 ---
 

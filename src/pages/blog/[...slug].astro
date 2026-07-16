@@ -2,18 +2,38 @@
 import type { CollectionEntry } from 'astro:content';
 import { render } from 'astro:content';
 import PostLayout from '../../layouts/PostLayout.astro';
-import { getPublishedPosts } from '../../lib/posts';
+import { getPublishedPosts, getSeriesParts } from '../../lib/posts';
+import { seriesIndex } from '../../data/series';
 
 export async function getStaticPaths() {
-  const posts = await getPublishedPosts(); // newest first
-  return posts.map((post, i) => ({
-    params: { slug: post.id },
-    props: {
-      post,
-      newer: i > 0 ? posts[i - 1] : null,
-      older: i < posts.length - 1 ? posts[i + 1] : null,
-    },
-  }));
+  const posts = await getPublishedPosts(); // newest first, series-stable
+
+  /** Nearest chronological neighbour in `dir`, skipping members of `sid`. */
+  const outsideSeries = (i: number, dir: 1 | -1, sid: string) => {
+    for (let j = i + dir; j >= 0 && j < posts.length; j += dir) {
+      if (posts[j].data.series !== sid) return posts[j];
+    }
+    return null;
+  };
+
+  return posts.map((post, i) => {
+    let newer = i > 0 ? posts[i - 1] : null;
+    let older = i + 1 < posts.length ? posts[i + 1] : null;
+
+    // Inside a series, prev/next follow reading order; at the series edges they
+    // fall back to the nearest post outside it.
+    const sid = post.data.series;
+    if (sid) {
+      const parts = posts
+        .filter((p) => p.data.series === sid)
+        .sort((a, b) => (a.data.seriesOrder ?? 0) - (b.data.seriesOrder ?? 0));
+      const k = parts.findIndex((p) => p.id === post.id);
+      older = k > 0 ? parts[k - 1] : outsideSeries(i, 1, sid);
+      newer = k + 1 < parts.length ? parts[k + 1] : outsideSeries(i, -1, sid);
+    }
+
+    return { params: { slug: post.id }, props: { post, newer, older } };
+  });
 }
 
 type Entry = CollectionEntry<'blog'>;
@@ -27,8 +47,25 @@ const { Content, remarkPluginFrontmatter } = await render(post);
 const minutesRead = remarkPluginFrontmatter.minutesRead as number | undefined;
 
 const toNav = (p: Entry | null) => (p ? { slug: p.id, title: p.data.title } : null);
+
+const sid = post.data.series;
+const seriesInfo = sid ? seriesIndex[sid] : undefined;
+const series =
+  sid && seriesInfo
+    ? {
+        title: seriesInfo.title,
+        order: post.data.seriesOrder ?? 0,
+        parts: await getSeriesParts(sid),
+      }
+    : null;
 ---
 
-<PostLayout post={post} minutesRead={minutesRead} prev={toNav(older)} next={toNav(newer)}>
+<PostLayout
+  post={post}
+  minutesRead={minutesRead}
+  prev={toNav(older)}
+  next={toNav(newer)}
+  series={series}
+>
   <Content />
 </PostLayout>
