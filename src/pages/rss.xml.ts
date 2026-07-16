@@ -34,6 +34,10 @@ export async function GET(context: APIContext) {
             tagName,
             attribs: { ...attribs, href: absolutize(attribs.href) },
           }),
+          img: (tagName, attribs) => ({
+            tagName,
+            attribs: { ...attribs, src: absolutize(attribs.src) },
+          }),
         },
       }),
     })),

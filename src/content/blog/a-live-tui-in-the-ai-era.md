@@ -209,7 +209,12 @@ cd backend && dotnet run      # terminal 1 — the control plane
 cd tui && go run .            # terminal 2 — the face
 ```
 
-Then be cruel to it, because the cruelty demonstrates the architecture:
+![The Go TUI attached to the .NET backend over SSE: stage board on the left with all four stages delivered, live event feed on the right — agent chatter, green PASS gates, one red gate FAIL, and the fix session that recovers it.](/images/gated-delivery-tui.png)
+
+That's it running — the red `FAIL` line is the scripted lying agent being
+caught by its gate battery, and everything below it is the fix session
+cleaning up. Now be cruel to it, because the cruelty demonstrates the
+architecture:
 **kill the TUI mid-run** — the backend doesn't notice, and reattaching
 repaints the full board from the replay ring. Press `p` and watch *the
 backend* pause while the stream stays live — pausing is backend state, not
