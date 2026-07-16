@@ -311,3 +311,45 @@ hr {
 .mono {
   font-family: var(--font-mono);
 }
+
+/* ------------------------------------------------------------------ *
+ * Heading anchor links (rehype-autolink-headings)
+ * ------------------------------------------------------------------ */
+.prose .heading-anchor {
+  margin-left: 0.4em;
+  color: var(--faint);
+  text-decoration: none;
+  opacity: 0;
+  transition: opacity 0.15s ease, color 0.15s ease;
+}
+.prose h2:hover .heading-anchor,
+.prose h3:hover .heading-anchor,
+.prose h4:hover .heading-anchor,
+.prose .heading-anchor:focus-visible {
+  opacity: 1;
+}
+.prose .heading-anchor:hover {
+  color: var(--accent);
+}
+
+/* ------------------------------------------------------------------ *
+ * Pagefind search (blog index) — theme the component UI via --pf-* vars.
+ * The site vars flip with [data-theme], so both themes come for free.
+ * ------------------------------------------------------------------ */
+:root {
+  --pf-text: var(--fg);
+  --pf-text-secondary: var(--muted);
+  --pf-text-muted: var(--faint);
+  --pf-background: var(--surface);
+  --pf-border: var(--border);
+  --pf-border-focus: var(--accent);
+  --pf-hover: var(--border);
+  --pf-mark: var(--accent);
+  --pf-skeleton: var(--border);
+  --pf-skeleton-shine: var(--surface);
+  --pf-outline-focus: var(--accent);
+  --pf-font: var(--font-mono);
+  --pf-border-radius: 8px;
+  --pf-input-font-size: 14px;
+  --pf-searchbox-max-width: 100%;
+}

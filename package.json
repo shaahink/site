@@ -22,13 +22,21 @@
     "@tailwindcss/vite": "^4.1.11",
     "astro": "^5.13.0",
     "astro-og-canvas": "^0.13.0",
+    "astro-pagefind": "^2.0.1",
     "canvaskit-wasm": "^0.41.1",
+    "markdown-it": "^14.3.0",
     "mdast-util-to-string": "^4.0.0",
+    "pagefind": "^1.5.2",
     "reading-time": "^1.5.0",
+    "rehype-autolink-headings": "^7.1.0",
+    "sanitize-html": "^2.17.6",
     "tailwindcss": "^4.1.11"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.4",
+    "@astrojs/markdown-remark": "^7.2.1",
+    "@types/markdown-it": "^14.1.2",
+    "@types/sanitize-html": "^2.16.1",
     "typescript": "^5.7.3"
   }
 }

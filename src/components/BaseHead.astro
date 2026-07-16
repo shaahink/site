@@ -1,5 +1,5 @@
 ---
-import { site } from '../data/site';
+import { site, socials } from '../data/site';
 import { withBase } from '../lib/url';
 
 interface Props {
@@ -20,6 +20,15 @@ const {
 const pageTitle = title ? `${title} · ${site.name}` : `${site.name} · ${site.role}`;
 const canonical = new URL(Astro.url.pathname, Astro.site);
 const ogImage = new URL(image, Astro.site);
+
+const personLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: site.name,
+  jobTitle: site.role,
+  url: new URL(withBase('/'), Astro.site).href,
+  sameAs: socials.filter((s) => s.href.startsWith('http')).map((s) => s.href),
+};
 ---
 
 <meta charset="utf-8" />
@@ -59,6 +68,8 @@ const ogImage = new URL(image, Astro.site);
 
 <meta name="theme-color" content="#0f0e0c" media="(prefers-color-scheme: dark)" />
 <meta name="theme-color" content="#faf8f3" media="(prefers-color-scheme: light)" />
+
+<script is:inline type="application/ld+json" set:html={JSON.stringify(personLd)} />
 
 <!-- No-flash theme: run before first paint. Dark-first; honour stored choice, else system. -->
 <script is:inline>

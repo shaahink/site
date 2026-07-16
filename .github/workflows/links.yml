@@ -1,0 +1,34 @@
+name: Check links
+
+on:
+  schedule:
+    # Weekly, Monday 09:00 UTC — external links rot quietly.
+    - cron: '0 9 * * 1'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  lychee:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Check external links in posts and data
+        uses: lycheeverse/lychee-action@v2
+        with:
+          # Only http(s) links: internal links are base-prefixed at build time
+          # and would false-positive as file paths here.
+          args: >-
+            --no-progress
+            --scheme https --scheme http
+            --exclude 'linkedin\.com'
+            --exclude 'stackoverflow\.com'
+            'src/content/blog/**/*.md'
+            'src/data/*.ts'
+            'README.md'
+          fail: true
+        env:
+          # Raises the rate limit for the many github.com deep links.
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

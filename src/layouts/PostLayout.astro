@@ -2,6 +2,7 @@
 import type { CollectionEntry } from 'astro:content';
 import BaseLayout from './BaseLayout.astro';
 import Tag from '../components/Tag.astro';
+import { site } from '../data/site';
 import { withBase } from '../lib/url';
 
 interface SeriesNav {
@@ -25,10 +26,24 @@ const fmt = (d: Date) =>
 
 // Build-time generated social card for this post (src/pages/og/[...route].ts).
 const ogImage = withBase(`/og/${post.id}.png`);
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BlogPosting',
+  headline: title,
+  description,
+  datePublished: pubDate.toISOString(),
+  dateModified: (updatedDate ?? pubDate).toISOString(),
+  author: { '@type': 'Person', name: site.name, url: new URL(withBase('/about'), Astro.site).href },
+  image: new URL(ogImage, Astro.site).href,
+  mainEntityOfPage: new URL(Astro.url.pathname, Astro.site).href,
+  keywords: tags.join(', '),
+};
 ---
 
 <BaseLayout title={title} description={description} image={ogImage} article={true}>
-  <article>
+  <script is:inline type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+  <article data-pagefind-body>
     <header class="mb-8 border-b border-border pb-8">
       <a href={withBase('/blog')} class="font-mono text-xs text-accent hover:underline">← All posts</a>
       <h1 class="mt-4 text-3xl font-bold leading-tight tracking-tight sm:text-4xl">
