@@ -21,6 +21,18 @@ export default defineConfig({
     // The CV page became the About page in the 2026-07 redesign.
     // Astro does not base-prefix redirect destinations, so spell it out.
     '/cv': `${base}/about`,
+    // 2026-07: the ten-post workshop series was replaced by four deeper pillar
+    // posts; old URLs point at the pillar that absorbed them (or the index).
+    '/blog/designing-a-kernel': `${base}/blog/designing-a-deterministic-kernel`,
+    '/blog/record-the-world-once': `${base}/blog/designing-a-deterministic-kernel`,
+    '/blog/ci-without-a-broker-account': `${base}/blog/designing-a-deterministic-kernel`,
+    '/blog/a-deterministic-bridge-out-of-ctrader': `${base}/blog/fast-event-driven-ipc-in-dotnet`,
+    '/blog/drive-the-agent-like-a-process': `${base}/blog/gated-delivery-for-a-team-of-agents`,
+    '/blog/watchdogging-an-autonomous-agent': `${base}/blog/gated-delivery-for-a-team-of-agents`,
+    '/blog/crash-safe-with-one-json-file': `${base}/blog/gated-delivery-for-a-team-of-agents`,
+    '/blog/a-live-mcp-session-in-dotnet': `${base}/blog`,
+    '/blog/fail-in-80-tokens': `${base}/blog`,
+    '/blog/a-context-pack-is-a-knapsack': `${base}/blog`,
   },
   markdown: {
     remarkPlugins: [remarkReadingTime],

@@ -6,11 +6,7 @@ export interface SeriesInfo {
   blurb: string;
 }
 
-export const seriesIndex: Record<string, SeriesInfo> = {
-  'workshop-systems': {
-    id: 'workshop-systems',
-    title: 'Systems from the workshop',
-    blurb:
-      'Ten posts drawn from the source of Shamshir, Conductor, and DevContext — each with a runnable sample in the blog-code repo.',
-  },
-};
+// No active series right now. The machinery (series box, series-aware prev/next,
+// seriesOrder sorting) stays wired up in posts.ts and PostLayout — register a new
+// series here and set `series`/`seriesOrder` in post frontmatter to revive it.
+export const seriesIndex: Record<string, SeriesInfo> = {};

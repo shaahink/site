@@ -31,11 +31,10 @@ export const projects: Project[] = [
     stack: 'crash-safe loop · supervised agent processes · independent gate battery — C#, with a Go face',
     href: 'https://github.com/shaahink/conductor',
     posts: [
+      'gated-delivery-for-a-team-of-agents',
+      'a-live-tui-in-the-ai-era',
       'dont-trust-the-agent',
       'an-agent-session-is-not-pass-fail',
-      'drive-the-agent-like-a-process',
-      'watchdogging-an-autonomous-agent',
-      'crash-safe-with-one-json-file',
     ],
   },
   {
@@ -54,9 +53,6 @@ export const projects: Project[] = [
       'point-dont-re-explore',
       'call-graphs-lie-about-modern-dotnet',
       'typed-tools-beat-a-shell',
-      'a-live-mcp-session-in-dotnet',
-      'fail-in-80-tokens',
-      'a-context-pack-is-a-knapsack',
     ],
   },
   {
@@ -71,12 +67,5 @@ export const projects: Project[] = [
     ],
     stack: 'pure reducer core · event log + deterministic replay · risk governor with veto — C#, broker at the edge',
     href: 'https://github.com/shaahink/Shamshir',
-    posts: [
-      'a-trading-engine-as-a-pure-function',
-      'designing-a-kernel',
-      'a-deterministic-bridge-out-of-ctrader',
-      'record-the-world-once',
-      'ci-without-a-broker-account',
-    ],
   },
 ];
