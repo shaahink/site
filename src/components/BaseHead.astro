@@ -44,6 +44,14 @@ const personLd = {
 />
 <link rel="canonical" href={canonical} />
 
+<!-- Owner-facing stats on the fleet's self-hosted Umami — cookieless, so no
+     consent banner. The website id is public by design. -->
+<script
+  is:inline
+  defer
+  src="https://sk-stats.vercel.app/script.js"
+  data-website-id="386c1b57-ab30-4cf6-a13d-ad88fb345747"></script>
+
 <title>{pageTitle}</title>
 <meta name="title" content={pageTitle} />
 <meta name="description" content={description} />
