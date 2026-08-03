@@ -4,7 +4,7 @@ Personal website and technical blog of **Shahin Kiassat** — built with
 [Astro](https://astro.build), styled with Tailwind CSS v4, and deployed to
 GitHub Pages via GitHub Actions.
 
-**Live:** https://shaahink.github.io
+**Live:** https://shaahink.github.io/site/
 
 ## Stack
 
@@ -49,12 +49,14 @@ public/         Static assets — favicon, robots.txt, CV PDF
 
 ## Deployment (one-time setup)
 
-The repo **must** be named `shaahink.github.io` (a GitHub user site).
+This is a **project page**: the repo is named `site`, so it publishes under the
+`/site/` path rather than at the domain root. `astro.config.mjs` carries the
+matching `base: '/site'` — rename the repo and that has to change with it.
 
-1. Create the repo on GitHub named `shaahink.github.io` and push `main`.
+1. Create the repo on GitHub named `site` and push `main`.
 2. In **Settings → Pages → Build and deployment**, set **Source: GitHub Actions**.
 3. Every push to `main` runs `.github/workflows/deploy.yml` (type check → build →
-   deploy). The site publishes to https://shaahink.github.io.
+   deploy). The site publishes to https://shaahink.github.io/site/.
 
 ### Custom domain (optional, later)
 

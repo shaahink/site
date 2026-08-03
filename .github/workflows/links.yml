@@ -20,11 +20,24 @@ jobs:
         with:
           # Only http(s) links: internal links are base-prefixed at build time
           # and would false-positive as file paths here.
+          #
+          # --root-dir is what makes that scheme filter reachable. Posts link
+          # internally as `/blog/...`, `/projects#...`, `/images/...`; without a
+          # root, lychee cannot even classify those and errors out per link
+          # ("provide a root dir") before any filter runs. Given the root it
+          # resolves them to file URIs, which the scheme filter then drops.
+          #
+          # The bare github.io origin is excluded because it is the deployment
+          # origin constant in src/data/site.ts (`site.url`, concatenated with the
+          # /site base to build RSS URLs), not a page anyone navigates to. The
+          # pattern is anchored, so every real /site/... URL is still checked.
           args: >-
             --no-progress
             --scheme https --scheme http
+            --root-dir ${{ github.workspace }}
             --exclude 'linkedin\.com'
             --exclude 'stackoverflow\.com'
+            --exclude '^https://shaahink\.github\.io/?$'
             'src/content/blog/**/*.md'
             'src/data/*.ts'
             'README.md'
