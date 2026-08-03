@@ -13,7 +13,7 @@ jobs:
   lychee:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v7
 
       - name: Check external links in posts and data
         uses: lycheeverse/lychee-action@v2

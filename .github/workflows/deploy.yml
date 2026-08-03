@@ -21,15 +21,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@v7
 
       - name: Install pnpm
-        uses: pnpm/action-setup@v4
+        uses: pnpm/action-setup@v6
         with:
           version: 10
 
+      # setup-node v6 narrowed *automatic* package-manager detection to npm, so
+      # `cache: pnpm` has to stay spelled out. pnpm is installed above it because
+      # the cache probe shells out to pnpm.
       - name: Setup Node
-        uses: actions/setup-node@v5
+        uses: actions/setup-node@v7
         with:
           node-version: 22
           cache: pnpm
@@ -44,9 +47,12 @@ jobs:
         run: pnpm build
 
       - name: Upload Pages artifact
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@v5
         with:
           path: ./dist
+          # v4 started dropping dotfiles from the artifact. `dist` has none
+          # today, but this keeps the bump a runtime change and nothing else.
+          include-hidden-files: true
 
   deploy:
     needs: build
@@ -57,4 +63,4 @@ jobs:
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v5
